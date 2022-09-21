@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-    - main
+    - master
   paths:
     include:
     - MauiFirebase
@@ -31,9 +31,9 @@ variables:
   - name: buildConfiguration
     value: 'Release'
   - name: Appgeneral
-      value: '${{parameters.AppVersionMayor}}${{parameters.AppVersionMinor}}'
+    value: '${{parameters.AppVersionMayor}}${{parameters.AppVersionMinor}}'
   - name: AppgeneralWitDots
-      value: '${{parameters.AppVersionMayor}}.${{parameters.AppVersionMinor}}'
+    value: '${{parameters.AppVersionMayor}}.${{parameters.AppVersionMinor}}'
 
 jobs:
 - job: Generate_version_number
