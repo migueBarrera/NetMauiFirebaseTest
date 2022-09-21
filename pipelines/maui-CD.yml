@@ -65,12 +65,19 @@ jobs:
     inputs:
       script: 'dotnet workload install maui'
 
+  - task: DownloadSecureFile@1
+    displayName: 'Download Android Keystore'
+    name: 'androidKeystore'
+    inputs:
+      secureFile: '$(keystore-file-name)'
+      retryCount: '3'
+
   - task: DotNetCoreCLI@2
     inputs:
       command: 'publish'
       publishWebProjects: false
       projects: '$(csproj)'
-      arguments: '-c $(buildConfiguration) -f net6.0-android /p:AndroidKeyStore=true /p:ApplicationDisplayVersion=$(appVersion) /p:ApplicationVersion=$(stringappversion) /p:AndroidSigningKeyStore=$(keystore-file-name) /p:AndroidSigningStorePass=$(keystore-file-pass) /p:AndroidSigningKeyAlias=$(keystore-file-alias) /p:AndroidSigningKeyPass=$(keystore-file-alias-pass)'
+      arguments: '-c $(buildConfiguration) -f net6.0-android /p:AndroidKeyStore=true /p:ApplicationDisplayVersion=$(appVersion) /p:ApplicationVersion=$(stringappversion) /p:AndroidSigningKeyStore=$(androidKeystore.secureFilePath) /p:AndroidSigningStorePass=$(keystore-file-pass) /p:AndroidSigningKeyAlias=$(keystore-file-alias) /p:AndroidSigningKeyPass=$(keystore-file-alias-pass)'
 
   - task: CopyFiles@2
     inputs:
