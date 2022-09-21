@@ -60,10 +60,5 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios'">
 		<BundleResource Include="GoogleService-Info.plist" />
 	</ItemGroup>
-	<ItemGroup>
-	  <MauiXaml Update="Pages\GoogleAuthPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-using MauiFirebase.Pages;
-
-namespace MauiFirebase;
+namespace MauiFirebase.Pages;
 
 public partial class AuthPage : ContentPage
 {

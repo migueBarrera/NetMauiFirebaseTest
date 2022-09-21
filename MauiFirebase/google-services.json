@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "881411387858-fdvp3sl4tg7bgiapli64q3i6st927vnj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mbmdevelop.mauifirebase",
+            "certificate_hash": "8eaf52074dfc6616fd3716efe0b33abebfdc4353"
+          }
+        },
+        {
           "client_id": "881411387858-mqkv13h6oiikkclgustm2of24d2v3loi.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "881411387858-mqkv13h6oiikkclgustm2of24d2v3loi.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "881411387858-ecfgii9rdihspqqc5d5jv5k1s5vas5sq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mbmdevelop.mauifirebase"
+              }
             }
           ]
         }

@@ -30,6 +30,7 @@ public static class MauiProgram
 			});
 
         Routing.RegisterRoute(nameof(AuthPage), typeof(AuthPage));
+        Routing.RegisterRoute(nameof(GoogleAuthPage), typeof(GoogleAuthPage));
 
         return builder.Build();
 	}

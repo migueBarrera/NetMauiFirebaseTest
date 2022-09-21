@@ -19,12 +19,20 @@ public class MainViewModel
             });
 
         GoToAuthCommand = new Command(GoToAuthCommandExecute);
+        GoToGoogleAuthCommand = new Command(GoToGoogleAuthCommandExecute);
     }
 
     public ICommand GoToAuthCommand { get; }
 
+    public ICommand GoToGoogleAuthCommand { get; }
+
     private async void GoToAuthCommandExecute()
     {
         await Shell.Current.GoToAsync($"/{nameof(AuthPage)}");
+    }
+    
+    private async void GoToGoogleAuthCommandExecute()
+    {
+        await Shell.Current.GoToAsync($"/{nameof(GoogleAuthPage)}");
     }
 }
