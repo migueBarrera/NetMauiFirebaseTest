@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "881411387858",
+    "project_id": "net-maui-firebase-test",
+    "storage_bucket": "net-maui-firebase-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881411387858:android:08d74e7f1a1777ab19580b",
+        "android_client_info": {
+          "package_name": "com.mbmdevelop.mauifirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "881411387858-mqkv13h6oiikkclgustm2of24d2v3loi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfxJR6U2wm7jeOiGhyHwgtxhor6Fk3CV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "881411387858-mqkv13h6oiikkclgustm2of24d2v3loi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

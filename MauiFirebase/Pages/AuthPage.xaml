@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiFirebase.AuthPage"
+             Title="AuthPage">
+    <VerticalStackLayout HorizontalOptions="Center"
+                         MinimumWidthRequest="200"
+                         VerticalOptions="Center"
+                         Spacing="8">
+        <Entry Placeholder="Email"
+               Text="{Binding Email}" />
+        <Entry Placeholder="Password"
+               Text="{Binding Pass}"
+               IsPassword="True" />
+        <Button Text="Sign In" Command="{Binding SingInCommand}"/>
+        <Button Text="Sign Up"
+                Command="{Binding SingUpCommand}" />
+    </VerticalStackLayout>
+</ContentPage>
