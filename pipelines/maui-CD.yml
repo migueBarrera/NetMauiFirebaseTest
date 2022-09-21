@@ -1,0 +1,86 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - MauiFirebase
+    - pipelines/maui-CD.yml
+
+parameters:
+- name: AppVersionMayor
+  displayName: App Version (ej. 1)
+  default: 1
+  type: string
+- name: AppVersionMinor
+  displayName: App Version (ej. 2)
+  default: 0
+  type: string  
+
+pool:
+  vmImage: 'windows-2022'
+
+variables:
+  - group: android-secrets
+  - name: solution
+    value: 'MauiFirebase.sln'
+  - name: csproj
+    value: 'MauiFirebase/MauiFirebase.csproj'    
+  - name: buildPlatform
+    value: 'Any CPU'
+  - name: buildConfiguration
+    value: 'Release'
+  - name: Appgeneral
+      value: '${{parameters.AppVersionMayor}}${{parameters.AppVersionMinor}}'
+  - name: AppgeneralWitDots
+      value: '${{parameters.AppVersionMayor}}.${{parameters.AppVersionMinor}}'
+
+jobs:
+- job: Generate_version_number
+  steps:
+  - pwsh: |
+      $TimestampEpoch = Get-Date -Date '2022-09-21'
+      $DaysSinceEpoch = (New-TimeSpan -Start $TimestampEpoch -End $(Get-Date)).Days
+      $MinutesSinceMidnight= [int] (New-TimeSpan -Start $(Get-Date -Hour 0 -Minute 00 -Second 00) -End $(Get-Date)).TotalMinutes
+      $MinutesSinceMidnightFourDigits = ([string]$minutesSinceMidnight).PadLeft(4,'0')
+      $AppVersionNumericSeparatedByDots = "$Env:AppgeneralWitDots.$DaysSinceEpoch$MinutesSinceMidnight"
+      $AppVersionStringOverlappedAndPadded = "$Env:Appgeneral$DaysSinceEpoch$MinutesSinceMidnightFourDigits"
+      # Set output variables
+      Write-Host "App version -> $AppVersionNumericSeparatedByDots, setting output variable 'appversion'"
+      Write-Host "##vso[task.setvariable variable=appversion;isOutput=true]$AppVersionNumericSeparatedByDots"
+      Write-Host "String app version -> $AppVersionStringOverlappedAndPadded, setting output variable 'stringappversion'"
+      Write-Host "##vso[task.setvariable variable=stringappversion;isOutput=true]$AppVersionStringOverlappedAndPadded"
+      # Update build name
+      Write-Host "##vso[build.updatebuildnumber]$AppVersionNumericSeparatedByDots"
+    name: GetAppVersionTask
+    displayName: 'Get app version, set BuildName'
+
+- job: 'Android_Bundle'
+  dependsOn: Generate_version_number
+  variables:
+    stringappversion: $[ dependencies.Generate_version_number.outputs['GetAppVersionTask.stringappversion'] ]
+    appversion: $[ dependencies.Generate_version_number.outputs['GetAppVersionTask.appversion'] ]
+  steps:  
+  - task: CmdLine@2
+    inputs:
+      script: 'dotnet workload install maui'
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: '$(csproj)'
+      arguments: '-c $(buildConfiguration) -f net6.0-android /p:AndroidKeyStore=true /p:ApplicationDisplayVersion=$(appVersion) /p:ApplicationVersion=$(stringappversion) /p:AndroidSigningKeyStore=$(keystore-file-name) /p:AndroidSigningStorePass=$(keystore-file-pass) /p:AndroidSigningKeyAlias=$(keystore-file-alias) /p:AndroidSigningKeyPass=$(keystore-file-alias-pass)'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(agent.builddirectory)'
+      Contents: '**/?(*-Signed.aab|*-Signed.apk)'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+      flattenFolders: true
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
