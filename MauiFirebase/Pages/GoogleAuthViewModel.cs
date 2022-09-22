@@ -26,10 +26,18 @@ namespace MauiFirebase.Pages
                     if (googleUser != null)
                     {
                         await Shell.Current.DisplayAlert(
-                            "",
-                            $"{googleUser.Email} , {googleUser.DisplayName}",
+                            "googleUser",
+                            $"{googleUser.Email} , {googleUser.DisplayName} , {googleUser}",
                             "OK");
                     }
+                    if (firebaseAuth.CurrentUser != null)
+                    {
+                        await Shell.Current.DisplayAlert(
+                            "firebaseAuth.CurrentUser",
+                            $"{firebaseAuth.CurrentUser.Email} , {firebaseAuth.CurrentUser.DisplayName}",
+                            "OK");
+                    }
+
                 }
             }
             catch (Exception e)
